@@ -96,28 +96,28 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
          */
         if (gamepad1.dpad_up){
             long start = System.currentTimeMillis();
-            long end = start+500;
+            long end = start+50;
             while(System.currentTimeMillis()<end){
                 dLateral = 1;
             }
         }
         if (gamepad1.dpad_down){
             long start = System.currentTimeMillis();
-            long end = start+500;
+            long end = start+50;
             while(System.currentTimeMillis()<end){
                 dLateral = -1;
             }
         }
         if (gamepad1.dpad_right){
             long start = System.currentTimeMillis();
-            long end = start+500;
+            long end = start+50;
             while(System.currentTimeMillis()<end){
                 dAxial = 1;
             }
         }
         if (gamepad1.dpad_up){
             long start = System.currentTimeMillis();
-            long end = start+500;
+            long end = start+50;
             while(System.currentTimeMillis()<end){
                 dLateral = -1;
             }
