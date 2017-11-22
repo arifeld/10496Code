@@ -39,7 +39,16 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     // Define other motors.
     public static DcMotor conveyor = null;
     public static DcMotor intake = null;
+    
+    //Define Servos
+    public static Servo kicker = null;
 
+        //Jewel Location
+    public double redLocX;
+    public double redLocY;
+    public double blueLocX;
+    public double blueLocY;
+    
     // Gyro stuff.
     private static BNO055IMU imu = null;
     public static Orientation angles;
@@ -95,6 +104,8 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         topRight = hardwareMap.dcMotor.get("topRight");
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
+        
+        kicker = hardwareMap.servo.get("kicker");
 
         topLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         topRight.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -118,6 +129,16 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         //resetMotor(intake, true);
     }
 
+    public void findBlue(){
+        blueLocX = BlueFind.blueLocationX;
+        blueLocY = BlueFind.blueLocationY;
+    }
+
+    public void findRed(){
+        redLocX = RedFind.redLocationX;
+        redLocY = RedFind.redLocationY;
+
+    }
     public void setMoveRobot(double axial, double lateral, double yaw) {
         setAxial(axial);
         setLateral(lateral);
