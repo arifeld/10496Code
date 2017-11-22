@@ -89,7 +89,39 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
         else if (gamepad2.dpad_left){
             moveRelicArm(withdrawRelicPower);
         }
-
+        
+        /**
+         *Stepping with D-Pad
+         * This will drive in a direction for X milliseconds
+         */
+        if (gamepad1.dpad_up){
+            long start = System.currentTimeMillis();
+            long end = start+500;
+            while(System.currentTimeMillis()<end){
+                dLateral = 1;
+            }
+        }
+        if (gamepad1.dpad_down){
+            long start = System.currentTimeMillis();
+            long end = start+500;
+            while(System.currentTimeMillis()<end){
+                dLateral = -1;
+            }
+        }
+        if (gamepad1.dpad_right){
+            long start = System.currentTimeMillis();
+            long end = start+500;
+            while(System.currentTimeMillis()<end){
+                dAxial = 1;
+            }
+        }
+        if (gamepad1.dpad_up){
+            long start = System.currentTimeMillis();
+            long end = start+500;
+            while(System.currentTimeMillis()<end){
+                dLateral = -1;
+            }
+        }
         telemetry.update();
     }
 
