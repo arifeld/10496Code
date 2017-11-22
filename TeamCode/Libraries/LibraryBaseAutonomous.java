@@ -22,6 +22,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.firstinspires.ftc.teamcode.Autonomous.BlueFind;
+import org.firstinspires.ftc.teamcode.Autonomous.RedFind;
 
 import java.util.Vector;
 
