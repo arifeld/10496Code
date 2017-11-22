@@ -41,6 +41,8 @@ public class Autonomous_Test extends LibraryBaseAutonomous {
                 telemetry.addData("Yaw: ", dYaw);
                 telemetry.addData("Gyro Yaw: ", gyroYaw);
                 telemetry.addData("Mode:", topRight.getMode());
+                telemetry.addData("Red Particle Location: ",redLocX + "," + redLocY );
+                telemetry.addData("Blue Particle Location: ",blueLocX + "," + blueLocY );
 
                 setMoveRobot(dAxial, dLateral, dYaw);
 
