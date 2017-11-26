@@ -65,13 +65,13 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 kickDown = true;
 
 
-                if(kickDown){
+                                if(kickDown){
                     //if blue is on the left
                     if(blueLocX-ballMiddle<0){
                         long start2 = System.currentTimeMillis();
                         long end2 = start2 + 50;
                         while(System.currentTimeMillis()<end2){
-                            dLateral = 1;
+                            setMoveRobot(1,0,0);
                             kicker.setPosition(0);
                             kickDown = false;
                         }
@@ -79,13 +79,13 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                         long start = System.currentTimeMillis();
                         long end = start + 50;
                         while(System.currentTimeMillis()<end){
-                            dLateral = -1;
+                            setMoveRobot(-1,0,0);
                             kicker.setPosition(0);
                             kickDown = false;
                         }
                     }
                 }
-                dLateral = 0;
+                setMoveRobot(0,0,0);
 
                 //then here realign with VuMark and figure out what the code is.
                 long start3 = System.currentTimeMillis();
@@ -98,25 +98,25 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                  end3=start3+500;
                  //move towards the cryptobox
                  while (System.currentTimeMillis()<end3){
-                 dLateral = -1;
+                 setMoveRobot(-1,0,0);
                  }
-                 dLateral = 0;
+                 setMoveRobot(0,0,0);
 
                  }else if("Middle Vumark"){
                  end3=start3+600;
                  //move towards the cryptobox
                  while (System.currentTimeMillis()<end3){
-                 dLateral = -1;
+                 setMoveRobot(-1,0,0);
                  }
-                 dLateral = 0;
-                 
+                 setMoveRobot(0,0,0);
+
                  }else if("Left VuMark"){
                  end3=start3+700;
                  //move towards the cryptobox
                  while (System.currentTimeMillis()<end3){
-                 dLateral = -1;
+                 setMoveRobot(-1,0,0);
                  }
-                 dLateral = 0;
+                 setMoveRobot(0,0,0);
                  }
                  */
 
