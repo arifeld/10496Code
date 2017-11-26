@@ -19,8 +19,6 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
     private double dLateral   = 0;
     private double dYaw       = 0;
 
-    private Long timeToCrypto; //time in milliseconds.
-
 
 
     @Override
