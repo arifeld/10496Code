@@ -23,6 +23,8 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     private double extendRelicPower = 0.4;
     private double withdrawRelicPower = -0.3;
 
+    private boolean stepping = false;
+
 
 
     @Override
@@ -48,9 +50,12 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     public void loop(){
 
         updateGyro();
-        dAxial   = -gamepad1.left_stick_y;
-        dLateral =  gamepad1.left_stick_x;
-        dYaw     = -gamepad1.right_stick_x;
+        if(stepping = false){
+            dAxial   = -gamepad1.left_stick_y;
+            dLateral =  gamepad1.left_stick_x;
+            dYaw     = -gamepad1.right_stick_x;
+        }
+
         gyroYaw  = angles.firstAngle;
 
         // Add some telemetry.
@@ -94,33 +99,40 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
          *Stepping with D-Pad
          * This will drive in a direction for X milliseconds
          */
+
         if (gamepad1.dpad_up){
+            stepping = true;
             long start = System.currentTimeMillis();
             long end = start+50;
             while(System.currentTimeMillis()<end){
                 dAxial = 1;
             }
         }
-        if (gamepad1.dpad_down){
+        else if (gamepad1.dpad_down){
+            stepping = true;
             long start = System.currentTimeMillis();
             long end = start+50;
             while(System.currentTimeMillis()<end){
                 dAxial = -1;
             }
         }
-        if (gamepad1.dpad_right){
+        else if (gamepad1.dpad_right){
+            stepping = true;
             long start = System.currentTimeMillis();
             long end = start+50;
             while(System.currentTimeMillis()<end){
                 dLateral = 1;
             }
         }
-        if (gamepad1.dpad_up){
+        else if (gamepad1.dpad_up){
+            stepping = true;
             long start = System.currentTimeMillis();
             long end = start+50;
             while(System.currentTimeMillis()<end){
                 dLateral = -1;
             }
+        }else{
+            stepping = false;
         }
         telemetry.update();
     }
