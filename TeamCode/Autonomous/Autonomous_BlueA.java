@@ -10,13 +10,17 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
-    public boolean kickDown = false;
+    private boolean jewelsNow = true;
+    private boolean cryptoMove = false;
 
     private double ballMiddle;
     private double gyroYaw    = 0;
     private double dAxial     = 0;
     private double dLateral   = 0;
     private double dYaw       = 0;
+
+    private Long timeToCrypto; //time in milliseconds.
+
 
 
     @Override
@@ -55,85 +59,74 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 findRed();
                 ballMiddle = Math.abs((redLocX + blueLocX)/2) ;
 
-                //lower kicker for 1 second
-                long start1 = System.currentTimeMillis();
-                long end1 = start1 + 100;
-                kicker.setPosition(90);
-                //This position needs to change in will need to be set at 90 degrees from vertical to horizontal
-                while (System.currentTimeMillis()<end1){
-                    kickDown = false;
-                }
-                kickDown = true;
+                //move the kicker from vertical to horizontal
+                kicker.setPosition(90); //NEEDS TO BE CHANGED TO A VIABLE POSITION
+                sleep(200);//sleep for 2 seconds
 
 
-                if(kickDown){
+
+
+                while(jewelsNow){
                     //if blue is on the left
                     if(blueLocX-ballMiddle<0){
-                        long start2 = System.currentTimeMillis();
-                        long end2 = start2 + 50;
-                        while(System.currentTimeMillis()<end2){
-                            setMoveRobot(1,0,0);
-                            kicker.setPosition(0);
-                            kickDown = false;
-                        }
+                        setMoveRobot(1,0,0);
+                        sleep(50);
+                        kicker.setPosition(0);
+                        jewelsNow = false;
+                        cryptoMove = true;
                     }else{
-                        long start = System.currentTimeMillis();
-                        long end = start + 50;
-                        while(System.currentTimeMillis()<end){
-                            setMoveRobot(-1,0,0);
-                            kicker.setPosition(0);
-                            kickDown = false;
-                        }
+                        setMoveRobot(-1,0,0);
+                        sleep(50);
+                        kicker.setPosition(0);
+                        jewelsNow = false;
+                        cryptoMove = true;
+
                     }
                 }
                 setMoveRobot(0,0,0);
+                sleep(50);//this is put here as a half second buffer to ensure the robot is not set to 0 while trying to move due to the VuMark function.
 
                 //then here realign with VuMark and figure out what the code is.
-                long start3 = System.currentTimeMillis();
-                long end3;
-
                 //the following needs to be re-written with correct coding for left, right and middle vumark)
 
-                /**
-                 * if(Right Vumark){
-                 end3=start3+500;
-                 //move towards the cryptobox
-                 while (System.currentTimeMillis()<end3){
-                 setMoveRobot(-1,0,0);
-                 }
-                 setMoveRobot(0,0,0);
 
-                 }else if("Middle Vumark"){
-                 end3=start3+600;
-                 //move towards the cryptobox
-                 while (System.currentTimeMillis()<end3){
-                 setMoveRobot(-1,0,0);
-                 }
-                 setMoveRobot(0,0,0);
+                 while (cryptoMove){
 
-                 }else if("Left VuMark"){
-                 end3=start3+700;
-                 //move towards the cryptobox
-                 while (System.currentTimeMillis()<end3){
-                 setMoveRobot(-1,0,0);
+
+                  if("Right Vumark"){
+                      setMoveRobot(-1,0,0);
+                      sleep(500); //move towards cryptobox for X seconds
+                      cryptoMove = false;
+
+                  }else if("Middle Vumark"){
+                      setMoveRobot(-1,0,0);
+                      sleep(550); //move towards cryptobox for X seconds
+                      cryptoMove = false;
+
+                  }else if("Left VuMark"){
+                      setMoveRobot(-1,0,0);
+                      sleep(600); //move towards cryptobox for X seconds
+                      cryptoMove = false;
+                  }
+
                  }
                  setMoveRobot(0,0,0);
-                 }
-                 */
+                 sleep(50);//half second buffer.
+
+
+
 
                 //Turn the robot so the conveyor faces the cryptobox.
-                long start5 = System.currentTimeMillis();
-                long end5 = start5+200;
-                while (System.currentTimeMillis()<end5){
-                    setMoveRobot(0,0,1);
-                }
+                setMoveRobot(0,0,1);
+                sleep(100);
+                setMoveRobot(0,0,0);
+
 
                 //Turn the conveyor
-                long start4 = System.currentTimeMillis();
-                long end4 = start4+1000;
-                while (System.currentTimeMillis()<end4){
-                    conveyor.setPower(0.5);
-                }
+                conveyor.setPower(0.5);
+                sleep(1000);
+                conveyor.setPower(0);
+
 
 
 
