@@ -59,13 +59,14 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 long start1 = System.currentTimeMillis();
                 long end1 = start1 + 100;
                 kicker.setPosition(90);
+                //This position needs to change in will need to be set at 90 degrees from vertical to horizontal
                 while (System.currentTimeMillis()<end1){
                     kickDown = false;
                 }
                 kickDown = true;
 
 
-                                if(kickDown){
+                if(kickDown){
                     //if blue is on the left
                     if(blueLocX-ballMiddle<0){
                         long start2 = System.currentTimeMillis();
@@ -120,12 +121,21 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                  }
                  */
 
+                //Turn the robot so the conveyor faces the cryptobox.
+                long start5 = System.currentTimeMillis();
+                long end5 = start5+200;
+                while (System.currentTimeMillis()<end5){
+                    setMoveRobot(0,0,1);
+                }
 
+                //Turn the conveyor
                 long start4 = System.currentTimeMillis();
                 long end4 = start4+1000;
                 while (System.currentTimeMillis()<end4){
                     conveyor.setPower(0.5);
                 }
+
+
 
 
             }
