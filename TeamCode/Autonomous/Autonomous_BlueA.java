@@ -18,6 +18,7 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
     private double dAxial     = 0;
     private double dLateral   = 0;
     private double dYaw       = 0;
+    
 
 
 
@@ -36,9 +37,6 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }
             }
             else{
-                dAxial   = -gamepad1.left_stick_y;
-                dLateral =  gamepad1.left_stick_x;
-                dYaw     = -gamepad1.right_stick_x;
                 gyroYaw  = angles.firstAngle;
 
                 // Add some telemetry.
@@ -49,6 +47,7 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 telemetry.addData("Mode:", topRight.getMode());
                 telemetry.addData("Red Particle Location: ",redLocX + "," + redLocY );
                 telemetry.addData("Blue Particle Location: ",blueLocX + "," + blueLocY );
+                telemetry.update();
                 setMoveRobot(dAxial, dLateral, dYaw);
 
 
@@ -56,7 +55,7 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 findBlue();
                 findRed();
                 ballMiddle = Math.abs((redLocX + blueLocX)/2) ;
-
+                telemetry.update();
                 //move the kicker from vertical to horizontal
                 kicker.setPosition(90); //NEEDS TO BE CHANGED TO A VIABLE POSITION
                 sleep(200);//sleep for 2 seconds
@@ -68,12 +67,14 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                     //if blue is on the left
                     if(blueLocX-ballMiddle<0){
                         setMoveRobot(1,0,0);
+                        telemetry.update();
                         sleep(50);
                         kicker.setPosition(0);
                         jewelsNow = false;
                         cryptoMove = true;
                     }else{
                         setMoveRobot(-1,0,0);
+                        telemetry.update();
                         sleep(50);
                         kicker.setPosition(0);
                         jewelsNow = false;
@@ -116,14 +117,18 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
                 //Turn the robot so the conveyor faces the cryptobox.
                 setMoveRobot(0,0,1);
+                telemetry.update();
                 sleep(100);
                 setMoveRobot(0,0,0);
+                telemetry.update();
 
 
                 //Turn the conveyor
                 conveyor.setPower(0.5);
+                telemetry.update();
                 sleep(1000);
                 conveyor.setPower(0);
+                telemetry.update();
 
 
 
