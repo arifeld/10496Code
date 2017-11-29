@@ -13,7 +13,6 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
     private boolean jewelsNow = true;
     private boolean cryptoMove = false;
 
-    private double ballMiddle;
     private double gyroYaw    = 0;
     private double dAxial     = 0;
     private double dLateral   = 0;
@@ -52,9 +51,12 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
 
-                findBlue();
-                findRed();
-                ballMiddle = Math.abs((redLocX + blueLocX)/2) ;
+                FindBlueJewel();
+                if(blueOnLeft){
+                    telemetry.addData("Blue location:", "Left");
+                }else {
+                    telemetry.addData("Blue location:", "Right");
+                }
                 telemetry.update();
                 //move the kicker from vertical to horizontal
                 kicker.setPosition(90); //NEEDS TO BE CHANGED TO A VIABLE POSITION
@@ -62,19 +64,16 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
 
-
                 while(jewelsNow){
                     //if blue is on the left
-                    if(blueLocX-ballMiddle<0){
+                    if(blueOnLeft){
                         setMoveRobot(1,0,0);
-                        telemetry.update();
                         sleep(50);
                         kicker.setPosition(0);
                         jewelsNow = false;
                         cryptoMove = true;
                     }else{
                         setMoveRobot(-1,0,0);
-                        telemetry.update();
                         sleep(50);
                         kicker.setPosition(0);
                         jewelsNow = false;
@@ -89,28 +88,28 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 //the following needs to be re-written with correct coding for left, right and middle vumark)
 
 
-                 while (cryptoMove){
+                while (cryptoMove){
 
 
-                  if("Right Vumark"){
-                      setMoveRobot(-1,0,0);
-                      sleep(500); //move towards cryptobox for X seconds
-                      cryptoMove = false;
+                    if("Right Vumark"){
+                        setMoveRobot(-1,0,0);
+                        sleep(500); //move towards cryptobox for X seconds
+                        cryptoMove = false;
 
-                  }else if("Middle Vumark"){
-                      setMoveRobot(-1,0,0);
-                      sleep(550); //move towards cryptobox for X seconds
-                      cryptoMove = false;
+                    }else if("Middle Vumark"){
+                        setMoveRobot(-1,0,0);
+                        sleep(550); //move towards cryptobox for X seconds
+                        cryptoMove = false;
 
-                  }else if("Left VuMark"){
-                      setMoveRobot(-1,0,0);
-                      sleep(600); //move towards cryptobox for X seconds
-                      cryptoMove = false;
-                  }
+                    }else if("Left VuMark"){
+                        setMoveRobot(-1,0,0);
+                        sleep(600); //move towards cryptobox for X seconds
+                        cryptoMove = false;
+                    }
 
-                 }
-                 setMoveRobot(0,0,0);
-                 sleep(50);//half second buffer.
+                }
+                setMoveRobot(0,0,0);
+                sleep(50);//half second buffer.
 
 
 
@@ -138,6 +137,19 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
             addNavTelemetry();
             telemetry.update();
         }
+
+    }
+    //Move robot down, find which Jewel, move up twice the length of going down and find which is the top jewel.
+
+    //Int 1 = blue, 2 = red.
+    public void FindBlueJewel(){
+        setMoveRobot(-1,0,0);
+        sleep(50);
+        setMoveRobot(0,0,0);
+        if(colour.red()<100){
+            blueOnLeft = true;
+        }
+
 
     }
 }
