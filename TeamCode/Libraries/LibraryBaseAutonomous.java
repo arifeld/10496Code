@@ -46,7 +46,9 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public static DcMotor intake = null;
 
     public static Servo kicker = null;
+
     public static ColorSensor colour;
+    public boolean blueOnLeft;
 
 
     //Jewel Location
