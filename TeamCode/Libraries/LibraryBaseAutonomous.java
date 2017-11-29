@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Libraries;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,6 +23,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
+import org.opencv.core.Core;
 import org.firstinspires.ftc.teamcode.Autonomous.BlueFind;
 import org.firstinspires.ftc.teamcode.Autonomous.RedFind;
 
@@ -30,6 +32,7 @@ import java.util.Vector;
 
 /**
  * Created by Ari on 13-11-17.
+ * Edited by Harrison on 29-11-17.
  */
 
 public abstract class LibraryBaseAutonomous extends LinearOpMode {
@@ -41,16 +44,17 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     // Define other motors.
     public static DcMotor conveyor = null;
     public static DcMotor intake = null;
-    
-    //Define Servos
-    public static Servo kicker = null;
 
-        //Jewel Location
+    public static Servo kicker = null;
+    public static ColorSensor colour;
+
+
+    //Jewel Location
     public double redLocX;
     public double redLocY;
     public double blueLocX;
     public double blueLocY;
-    
+
     // Gyro stuff.
     private static BNO055IMU imu = null;
     public static Orientation angles;
@@ -106,8 +110,10 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         topRight = hardwareMap.dcMotor.get("topRight");
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
-        
+
         kicker = hardwareMap.servo.get("kicker");
+
+        colour = hardwareMap.colorSensor.get("colour");
 
         topLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         topRight.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -180,6 +186,8 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         telemetry.addData("backLeft: ", backLeft.getPower());
         telemetry.addData("backRight: ", backRight.getPower());
     }
+
+
 
     // Create the functions that we use to set variables. Also, sets the range that the variable can be set to.
     public void setAxial(double axial) {
@@ -317,7 +325,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         if (vuMark != RelicRecoveryVuMark.UNKNOWN){
-            telemetry.addData("VuMark ", "%s visible", vuMark);
+            telemetry.addData("VuMark ", "is visible", vuMark);
             pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
             VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener)relicTemplate.getListener(); // See if Vuforia can currently see the target.
 
