@@ -18,10 +18,7 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     private double dYaw       = 0;
 
     private double intakePower = 0.5;
-    private double raiseRelicPower = 0.4;
-    private double lowerRelicPower = -0.3;
-    private double extendRelicPower = 0.4;
-    private double withdrawRelicPower = -0.3;
+
 
     private boolean stepping = false;
 
@@ -74,26 +71,6 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
             moveIntake(-intakePower);
         }
 
-        if (gamepad2.right_bumper){
-            grabRelic(true);
-        }
-        else if (gamepad2.left_bumper){
-            grabRelic(false);
-        }
-
-        if (gamepad2.dpad_up){
-            raiseRelicArm(raiseRelicPower);
-        }
-        else if (gamepad2.dpad_down){
-            raiseRelicArm(lowerRelicPower);
-        }
-
-        if (gamepad2.dpad_right){
-            moveRelicArm(extendRelicPower);
-        }
-        else if (gamepad2.dpad_left){
-            moveRelicArm(withdrawRelicPower);
-        }
 
         /**
          *Stepping with D-Pad
