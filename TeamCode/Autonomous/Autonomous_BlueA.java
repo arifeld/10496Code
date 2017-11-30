@@ -8,8 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Harrison on 22/11/2017.
  */
+@Autonomous(name="Auto_BlueA")
 
-public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
+public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
     private boolean jewelsNow = true;
     private boolean cryptoMove = false;
