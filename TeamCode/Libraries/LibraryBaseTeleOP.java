@@ -28,10 +28,6 @@ public abstract class LibraryBaseTeleOP extends OpMode {
     // Define other motors.
     public static DcMotor conveyor    = null;
     public static DcMotor intake      = null;
-    public static DcMotor relicExtend = null;
-    public static DcMotor relicRaise  = null;
-    public static Servo   relicClaw        = null;
-
 
     // Gyro stuff.
     private static BNO055IMU imu       = null;
@@ -77,20 +73,7 @@ public abstract class LibraryBaseTeleOP extends OpMode {
         //resetMotor(intake, true);
     }
 
-    public void initRelic(){
-        telemetry.addData("STATUS: ", "Initialising Relic Arms.");
-        relicExtend = hardwareMap.dcMotor.get("relicArm");
-        relicRaise  = hardwareMap.dcMotor.get("relicRaise");
-        relicClaw   = hardwareMap.servo.get("relicClaw");
 
-        relicExtend.setDirection(DcMotorSimple.Direction.FORWARD);
-        relicRaise.setDirection(DcMotorSimple.Direction.FORWARD);
-        relicClaw.setPosition(0.1);
-
-        resetMotor(relicExtend, false);
-        resetMotor(relicRaise, true);
-
-    }
 
     public void setMoveRobot(double axial, double lateral, double yaw ){
         setAxial(axial);
@@ -231,23 +214,5 @@ public abstract class LibraryBaseTeleOP extends OpMode {
         intake.setPower(power);
         telemetry.addData("Intake Power:", power);
     }
-
-    public void grabRelic(boolean shouldGrab){
-        if (shouldGrab){
-            relicClaw.setPosition(0.9);
-        }
-        else{
-            relicClaw.setPosition(0.1);
-        }
-    }
-
-    public void moveRelicArm(double power){
-        relicExtend.setPower(power);
-    }
-
-    public void raiseRelicArm(double power){
-        relicRaise.setPower(power);
-    }
-
 
 }
