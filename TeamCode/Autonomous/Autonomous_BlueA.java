@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Libraries.LibraryBaseAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -52,17 +53,17 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
                 if(colour.red()<75){
-                    blueOnLeft = true;
-                    telemetry.addData("Blue location:", "Left");
-                }else if(colour.red()>200){
                     blueOnLeft = false;
                     telemetry.addData("Blue location:", "Right");
+                }else if(colour.red()>200){
+                    blueOnLeft = true;
+                    telemetry.addData("Blue location:", "Left");
                 }else{
                     telemetry.addData("Blue location:", "Unknown");
                 }
                 telemetry.update();
                 //move the kicker from vertical to horizontal
-                kicker.setPosition(90); //NEEDS TO BE CHANGED TO A VIABLE POSITION
+                kicker.setPosition(0.4); //NEEDS TO BE CHANGED TO A VIABLE POSITION
                 sleep(200);//sleep for 2 seconds
 
 
@@ -72,13 +73,21 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                     if(blueOnLeft){
                         setMoveRobot(1,0,0);
                         sleep(50);
-                        kicker.setPosition(0);
+                        setMoveRobot(-1,0,0);
+                        sleep(50);
+                        moveIntake(0.1);
+                        sleep(100);
+                        kicker.setPosition(0.1);
                         jewelsNow = false;
                         cryptoMove = true;
                     }else{
                         setMoveRobot(-1,0,0);
                         sleep(50);
-                        kicker.setPosition(0);
+                        setMoveRobot(1,0,0);
+                        sleep(50);
+                        moveIntake(0.1);
+                        sleep(100);
+                        kicker.setPosition(0.1);
                         jewelsNow = false;
                         cryptoMove = true;
 
@@ -87,24 +96,24 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
                 setMoveRobot(0,0,0);
                 sleep(50);//this is put here as a half second buffer to ensure the robot is not set to 0 while trying to move due to the VuMark function.
 
+
                 //then here realign with VuMark and figure out what the code is.
                 //the following needs to be re-written with correct coding for left, right and middle vumark)
 
 
                 while (cryptoMove){
 
-
-                    if("Right Vumark"){
+                    if(vuMark == RelicRecoveryVuMark.RIGHT){
                         setMoveRobot(-1,0,0);
                         sleep(500); //move towards cryptobox for X seconds
                         cryptoMove = false;
 
-                    }else if("Middle Vumark"){
+                    }else if(vuMark == RelicRecoveryVuMark.CENTER){
                         setMoveRobot(-1,0,0);
                         sleep(550); //move towards cryptobox for X seconds
                         cryptoMove = false;
 
-                    }else if("Left VuMark"){
+                    }else if(vuMark == RelicRecoveryVuMark.LEFT){
                         setMoveRobot(-1,0,0);
                         sleep(600); //move towards cryptobox for X seconds
                         cryptoMove = false;
