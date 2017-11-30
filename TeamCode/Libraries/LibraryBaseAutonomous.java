@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Libraries;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,16 +22,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
-import org.opencv.core.Core;
-import org.firstinspires.ftc.teamcode.Autonomous.BlueFind;
-import org.firstinspires.ftc.teamcode.Autonomous.RedFind;
 
 import java.util.Vector;
 
 
 /**
  * Created by Ari on 13-11-17.
- * Edited by Harrison on 29-11-17.
  */
 
 public abstract class LibraryBaseAutonomous extends LinearOpMode {
@@ -44,18 +39,6 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     // Define other motors.
     public static DcMotor conveyor = null;
     public static DcMotor intake = null;
-
-    public static Servo kicker = null;
-
-    public static ColorSensor colour;
-    public boolean blueOnLeft;
-
-
-    //Jewel Location
-    public double redLocX;
-    public double redLocY;
-    public double blueLocX;
-    public double blueLocY;
 
     // Gyro stuff.
     private static BNO055IMU imu = null;
@@ -89,9 +72,9 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public OpenGLMatrix pose;
     public OpenGLMatrix location;
 
-    public static final int CAMERA_FORWARD_DISPLACEMENT  = 150; // Camera is 110mm in front of robot centre.
-    public static final int CAMERA_VERTICAL_DISPLACEMENT = 142; // Camera is 200mm above the ground.
-    public static final int CAMERA_LEFT_DISPLACEMENT     = 12;   // Camera is ON the robots centre line.
+    public static final int CAMERA_FORWARD_DISPLACEMENT  = 76; // Camera is 110mm in front of robot centre.
+    public static final int CAMERA_VERTICAL_DISPLACEMENT = 178; // Camera is 200mm above the ground.
+    public static final int CAMERA_LEFT_DISPLACEMENT     = -178;   // Camera is ON the robots centre line.
 
 
     // Setup navigation data variables. Only used if targetFound == true. Assigned values later.
@@ -112,10 +95,6 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         topRight = hardwareMap.dcMotor.get("topRight");
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
-
-        kicker = hardwareMap.servo.get("kicker");
-
-        colour = hardwareMap.colorSensor.get("colour");
 
         topLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         topRight.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -139,16 +118,6 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         //resetMotor(intake, true);
     }
 
-    public void findBlue(){
-        blueLocX = BlueFind.blueLocationX;
-        blueLocY = BlueFind.blueLocationY;
-    }
-
-    public void findRed(){
-        redLocX = RedFind.redLocationX;
-        redLocY = RedFind.redLocationY;
-
-    }
     public void setMoveRobot(double axial, double lateral, double yaw) {
         setAxial(axial);
         setLateral(lateral);
@@ -188,8 +157,6 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         telemetry.addData("backLeft: ", backLeft.getPower());
         telemetry.addData("backRight: ", backRight.getPower());
     }
-
-
 
     // Create the functions that we use to set variables. Also, sets the range that the variable can be set to.
     public void setAxial(double axial) {
@@ -268,7 +235,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         parameters.vuforiaLicenseKey = "Ac2ZR6T/////AAAAGdIyuKX5yU1WhsL+sBQlI9QhbPH4vz8oCEvf34gr7LGyWt0mzfDJahzBJldwHZZZ/SfMij+6i19yz3xkhQ03sTVqAcrlFwAxPLfU6SWVGub0SKiCPzVVB53l+RruAGNUPRL2jDjBg5LccPCWnFBW5R9ISdxzOo1diqV0uMjIlT46GNuPBXIW56uWkOhtZQLk/dm/0f7TRdsoyFoeE/2E4NIzLH7W/tDfm/q3dlwedS1lVdLXPQ/3dQHDOxf++hECRwuSSOPRfoxKlxr1e31nomJFQN2i/KegOBWV4FmaQpKPx9hj33GNeOHW/I4ode7KeEJaUEijd8HQUncF9dwry7YSoCGF7WiYnAPOvM+eZ17s";
 
         parameters.cameraDirection = CAMERA_CHOICE; // Set the camera that we want to use.
-        parameters.useExtendedTracking = false; // Extended tracking is used for augmented reality purposes, we don't want it.
+        parameters.useExtendedTracking = true;
 
         // Create the Vuforia Localizer.
         VuforiaLocalizer vuforia = ClassFactory.createVuforiaLocalizer(parameters);
@@ -307,7 +274,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
                         // Once again, we want the axes to be in a fixed point. Hence, extrinsic.
                         AxesReference.EXTRINSIC, AxesOrder.YZX,
                         // For this, we check if the selected camera is the front one. If so, we rotate +ve 90 degrees, otherwise -90 degrees.
-                        AngleUnit.DEGREES, CAMERA_CHOICE == VuforiaLocalizer.CameraDirection.FRONT ? 90 : -90, 0, 0));
+                        AngleUnit.DEGREES, CAMERA_CHOICE == VuforiaLocalizer.CameraDirection.FRONT ? 90 : -90, 90, 0));
 
         ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).setPhoneInformation(phoneLocationOnRobot, parameters.cameraDirection); // Sets the targets information about the phone location.
 
@@ -326,34 +293,40 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public boolean getPositionalData(){
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
-        if (vuMark != RelicRecoveryVuMark.UNKNOWN){
-            telemetry.addData("VuMark ", "is visible", vuMark);
-            pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-            VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener)relicTemplate.getListener(); // See if Vuforia can currently see the target.
-
-            location = listener.getUpdatedRobotLocation();
-            VectorF trans = location.getTranslation();
-            Orientation rot = Orientation.getOrientation(location, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-            robotX = (trans.get(0) + 915); // First value of trans is the distance along the X axis the robot is from the target. We add 915 so we move 915mm away from the target.
-            robotY = (trans.get(1) + 1195); // Second value of trans is the distance along the Y axis the robot is from the target. We add 1195 so we move 1195mm away from the target.
+        if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+            telemetry.addData("VuMark ", "%s visible", vuMark);
+            VuforiaTrackableDefaultListener listener = (VuforiaTrackableDefaultListener) relicTemplate.getListener(); // See if Vuforia can currently see the target.
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+            telemetry.addData("Listener: ", listener);
+            telemetry.addData("Pose: ", pose);
 
 
-            // Robot bearing (with +ve being CCW) is defined by the rotation along the Z axis.
-            robotBearing = rot.thirdAngle; // The third angle of rot is the rotation along the Z axis.
+            if (pose != null) {
+                VectorF trans = pose.getTranslation();
+                Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-            // targetRange is based on the distance from the robot to the target, in mm.
-            targetRange = Math.hypot(robotX, robotY);
-
-            // targetBearing is based on the angle formed between the X axis and the target range line, FROM the target, hence sin. Doesn't take into account where the phone is currently facing.
-            // It's negative because you need to take into account the fact that moving CW is negative, hence you need a negative angle.
-            targetBearing = Math.toDegrees(-Math.asin(robotY / targetRange));
-
-            // relativeBearing is the bearing that the robot needs to rotate to face the target, taking into account the angle the camera is already facing.
-            relativeBearing = targetBearing - robotBearing;
+                robotX = (trans.get(0)); // First value of trans is the distance along the X axis the robot is from the target. We add 915 so we move 915mm away from the target.
+                robotY = (trans.get(1)); // Second value of trans is the distance along the Y axis the robot is from the target. We add 1195 so we move 1195mm away from the target.
 
 
+                // Robot bearing (with +ve being CCW) is defined by the rotation along the Z axis.
+                robotBearing = rot.thirdAngle; // The third angle of rot is the rotation along the Z axis.
+
+                // targetRange is based on the distance from the robot to the target, in mm.
+                targetRange = Math.hypot(robotX, robotY);
+
+                // targetBearing is based on the angle formed between the X axis and the target range line, FROM the target, hence sin. Doesn't take into account where the phone is currently facing.
+                // It's negative because you need to take into account the fact that moving CW is negative, hence you need a negative angle.
+                targetBearing = Math.toDegrees(-Math.asin(robotY / targetRange));
+
+                // relativeBearing is the bearing that the robot needs to rotate to face the target, taking into account the angle the camera is already facing.
+                relativeBearing = targetBearing - robotBearing;
+
+
+
+            }
             return true;
+
         }
         else {
             return false;
@@ -376,7 +349,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         double A = ( -(robotX + standOffDistance) * AXIAL_GAIN );
 
         // Send these values to Vuforia_OmniDrive.
-        setMoveRobot(A, L, Y);
+        setMoveRobot(A,L,Y); // (A,L,Y) for actual value
 
         closeEnough = ( ( Math.abs( robotX + standOffDistance ) < CLOSE_ENOUGH ) && // If our current robotX (distance) is within 20 mm of standOffDistance
                 ( Math.abs( robotY ) < ON_AXIS )); // (logical) and we are within 10mm of the centre of the target, then true.
