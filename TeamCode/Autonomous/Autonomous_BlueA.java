@@ -51,11 +51,14 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
 
-                FindBlueJewel();
-                if(blueOnLeft){
+                if(colour.red()<75){
+                    blueOnLeft = true;
                     telemetry.addData("Blue location:", "Left");
-                }else {
+                }else if(colour.red()>200){
+                    blueOnLeft = false;
                     telemetry.addData("Blue location:", "Right");
+                }else{
+                    telemetry.addData("Blue location:", "Unknown");
                 }
                 telemetry.update();
                 //move the kicker from vertical to horizontal
@@ -139,17 +142,5 @@ public abstract class Autonomous_BlueA extends LibraryBaseAutonomous{
         }
 
     }
-    //Move robot down, find which Jewel, move up twice the length of going down and find which is the top jewel.
 
-    //Int 1 = blue, 2 = red.
-    public void FindBlueJewel(){
-        setMoveRobot(-1,0,0);
-        sleep(50);
-        setMoveRobot(0,0,0);
-        if(colour.red()<100){
-            blueOnLeft = true;
-        }
-
-
-    }
 }
