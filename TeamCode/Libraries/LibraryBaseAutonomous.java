@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Libraries;
 
+import android.sax.TextElementListener;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,6 +47,8 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public static ColorSensor colour;
     public boolean blueOnLeft;
 
+    public static int vuMarkInt;
+
 
 
 
@@ -74,11 +78,11 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public static final double LATERAL_GAIN = 0.0027; // Rate of correcting lateral (Y axis).
     public static final double AXIAL_GAIN = 0.0017; // Rate of correct distance (X axis).
 
-    public VuforiaTrackables relicTrackables;
-    public VuforiaTrackable relicTemplate;
-    public RelicRecoveryVuMark vuMark;
-    public OpenGLMatrix pose;
-    public OpenGLMatrix location;
+    public static VuforiaTrackables relicTrackables;
+    public static VuforiaTrackable relicTemplate;
+    public static RelicRecoveryVuMark vuMark;
+    public static OpenGLMatrix pose;
+    public static OpenGLMatrix location;
 
     public static final int CAMERA_FORWARD_DISPLACEMENT  = 150; // Camera is 110mm in front of robot centre.
     public static final int CAMERA_VERTICAL_DISPLACEMENT = 142; // Camera is 200mm above the ground.
@@ -120,6 +124,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
 
     public void initConveyor() {
         telemetry.addData("STATUS: ", "Initialising Conveyor.");
+
         conveyor = hardwareMap.dcMotor.get("conveyor");
         intake = hardwareMap.dcMotor.get("intake");
         dropKick = hardwareMap.dcMotor.get("dropKick");
@@ -303,15 +308,12 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
 
     public void activateTracking(){
         relicTrackables.activate();
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
     }
 
-    public void displayvuMarkTelemetry(){
-        telemetry.addData("vuMark: ", vuMark);
-    }
+
 
     public boolean getPositionalData(){
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        vuMark = RelicRecoveryVuMark.from(relicTemplate);
 
         /*if (vuMark != RelicRecoveryVuMark.UNKNOWN){
             telemetry.addData("VuMark ", "is visible", vuMark);
@@ -340,6 +342,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
             relativeBearing = targetBearing - robotBearing;
 
             */
+        telemetry.update();
         if (vuMark != RelicRecoveryVuMark.UNKNOWN){
             return true;
         }
