@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Libraries.LibraryBaseAutonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Harrison on 22/11/2017.
@@ -19,8 +20,8 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
     private double dAxial     = 0;
     private double dLateral   = 0;
     private double dYaw       = 0;
-    
 
+    ElapsedTime time = new ElapsedTime();
 
 
     @Override
@@ -40,8 +41,8 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 telemetry.addData("Yaw: ", dYaw);
                 telemetry.addData("Gyro Yaw: ", gyroYaw);
                 telemetry.addData("Mode:", topRight.getMode());
-                telemetry.addData("Red Particle Location: ",redLocX + "," + redLocY );
-                telemetry.addData("Blue Particle Location: ",blueLocX + "," + blueLocY );
+                telemetry.addData("Current Time:", time.time());
+
                 telemetry.update();
                 setMoveRobot(dAxial, dLateral, dYaw);
 
@@ -56,92 +57,90 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }else{
                     telemetry.addData("Blue location:", "Unknown");
                 }
-                
+
 
                 telemetry.update();
                 //move the kicker from vertical to horizontal
-                kicker.setPosition(0.55); //NEEDS TO BE CHANGED TO A VIABLE POSITION
-                sleep(200);//sleep for 2 seconds
+                kicker.setPosition(0.55);
 
 
 
                 while(jewelsNow){
                     //if blue is on the left
                     if(blueOnLeft){
-                        setMoveRobot(1,0,0);
-                        sleep(50);
-                        setMoveRobot(-1,0,0);
-                        sleep(50);
-                        moveIntake(0.1);
-                        sleep(100);
-                        kicker.setPosition(0.1);
-                        jewelsNow = false;
-                        cryptoMove = true;
+                        if(time.time()>1 && time.time()<1.25){
+                            setMoveRobot(1,0,0);
+                        }else if(time.time()>1.25 && time.time()<1.5){
+                            setMoveRobot(-1,0,0);
+                        }else if(time.time()>1.5 && time.time()<2.5){
+                            moveDropKick(0.2);
+                            setMoveRobot(0,0,0);
+                        }else if(time.time()>2.5 && time.time()<3){
+                            kicker.setPosition(0.95);
+                            jewelsNow = false;
+                            cryptoMove = true;
+                        }
                     }else{
-                        setMoveRobot(-1,0,0);
-                        sleep(50);
-                        setMoveRobot(1,0,0);
-                        sleep(50);
-                        moveIntake(0.1);
-                        sleep(100);
-                        kicker.setPosition(0.1);
-                        jewelsNow = false;
-                        cryptoMove = true;
-
+                        if(time.time()>1 && time.time()<1.25){
+                            setMoveRobot(-1,0,0);
+                        }else if(time.time()>1.25 && time.time()<1.5){
+                            setMoveRobot(1,0,0);
+                        }else if(time.time()>1.5 && time.time()<2.5){
+                            moveDropKick(0.2);
+                            setMoveRobot(0,0,0);
+                        }else if(time.time()>2.5 && time.time()<3){
+                            kicker.setPosition(0.95);
+                            jewelsNow = false;
+                            cryptoMove = true;
+                        }
                     }
                 }
-                setMoveRobot(0,0,0);
-                sleep(50);//this is put here as a half second buffer to ensure the robot is not set to 0 while trying to move due to the VuMark function.
-
-
-                //then here realign with VuMark and figure out what the code is.
-                //the following needs to be re-written with correct coding for left, right and middle vumark)
-
 
                 while (cryptoMove){
 
                     if(vuMark == RelicRecoveryVuMark.RIGHT){
-                        setMoveRobot(-1,0,0);
-                        sleep(500); //move towards cryptobox for X seconds
-                        cryptoMove = false;
+                        if(time.time()>3.5 && time.time()<4.5){
+                            setMoveRobot(-1,0,0);
+                        }else if(time.time()>4.5){
+                            setMoveRobot(0,0,0);
+                            cryptoMove = false;
+                        }
 
                     }else if(vuMark == RelicRecoveryVuMark.CENTER){
-                        setMoveRobot(-1,0,0);
-                        sleep(550); //move towards cryptobox for X seconds
-                        cryptoMove = false;
-
+                        if(time.time()>3.5 && time.time()<4.75){
+                            setMoveRobot(-1,0,0);
+                        }else if(time.time()>4.75){
+                            setMoveRobot(0,0,0);
+                            cryptoMove = false;
+                        }
                     }else if(vuMark == RelicRecoveryVuMark.LEFT){
-                        setMoveRobot(-1,0,0);
-                        sleep(600); //move towards cryptobox for X seconds
-                        cryptoMove = false;
+                        if(time.time()>3.5 && time.time()<5){
+                            setMoveRobot(-1,0,0);
+                        }else if(time.time()>5){
+                            setMoveRobot(0,0,0);
+                            cryptoMove = false;
+                        }
                     }
 
                 }
-                setMoveRobot(0,0,0);
-                sleep(50);//half second buffer.
 
 
 
 
                 //Turn the robot so the conveyor faces the cryptobox.
-                setMoveRobot(0,0,1);
-                telemetry.update();
-                sleep(100);
-                setMoveRobot(0,0,0);
-                telemetry.update();
-
-
-                //Turn the conveyor
-                conveyor.setPower(0.5);
-                telemetry.update();
-                sleep(1000);
-                conveyor.setPower(0);
-                telemetry.update();
-
-
-
-
-
+                if(time.time()>5.5 && time.time()<6){
+                    setMoveRobot(0,0,1);
+                    telemetry.update();
+                }else if(time.time()>6 && time.time()<6.5){
+                    setMoveRobot(0,0,0);
+                    telemetry.update();
+                }else if(time.time()>6.75 && time.time()<7.75){
+                    conveyor.setPower(0.5);
+                    telemetry.update();
+                }else if(time.time()>7.75){
+                    conveyor.setPower(0);
+                    telemetry.update();
+                }
 
             addNavTelemetry();
             telemetry.update();
