@@ -32,12 +32,6 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
         waitForStart();
         activateTracking();
         while (opModeIsActive()){
-            if (gamepad1.right_bumper){
-                if ( getPositionalData() ){
-                    cruiseControl(10);
-                }
-            }
-            else{
                 gyroYaw  = angles.firstAngle;
 
                 // Add some telemetry.
@@ -62,9 +56,11 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }else{
                     telemetry.addData("Blue location:", "Unknown");
                 }
+                
+
                 telemetry.update();
                 //move the kicker from vertical to horizontal
-                kicker.setPosition(0.4); //NEEDS TO BE CHANGED TO A VIABLE POSITION
+                kicker.setPosition(0.55); //NEEDS TO BE CHANGED TO A VIABLE POSITION
                 sleep(200);//sleep for 2 seconds
 
 
@@ -146,7 +142,7 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
 
-            }
+
             addNavTelemetry();
             telemetry.update();
         }
