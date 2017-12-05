@@ -38,6 +38,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     // Define other motors.
     public static DcMotor conveyor = null;
     public static DcMotor intake = null;
+    public static DcMotor dropKick = null;
 
     public static Servo kicker = null;
 
@@ -45,11 +46,7 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public boolean blueOnLeft;
 
 
-    //Jewel Location
-    public double redLocX;
-    public double redLocY;
-    public double blueLocX;
-    public double blueLocY;
+
 
     // Gyro stuff.
     private static BNO055IMU imu = null;
@@ -124,25 +121,18 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
     public void initConveyor() {
         telemetry.addData("STATUS: ", "Initialising Conveyor.");
         conveyor = hardwareMap.dcMotor.get("conveyor");
-        //intake = hardwareMap.dcMotor.get("intake");
+        intake = hardwareMap.dcMotor.get("intake");
+        dropKick = hardwareMap.dcMotor.get("dropKick");
 
         conveyor.setDirection(DcMotorSimple.Direction.FORWARD);
-        //intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        dropKick.setDirection(DcMotorSimple.Direction.FORWARD);
 
         resetMotor(conveyor, false);
-        //resetMotor(intake, true);
-    }
-    /*
-    public void findBlue(){
-        blueLocX = BlueFind.blueLocationX;
-        blueLocY = BlueFind.blueLocationY;
+        resetMotor(intake, false);
+        resetMotor(dropKick, false);
     }
 
-    public void findRed(){
-        redLocX = RedFind.redLocationX;
-        redLocY = RedFind.redLocationY;
-
-    }*/
     public void setMoveRobot(double axial, double lateral, double yaw) {
         setAxial(axial);
         setLateral(lateral);
@@ -181,6 +171,9 @@ public abstract class LibraryBaseAutonomous extends LinearOpMode {
         telemetry.addData("topRight: ", topRight.getPower());
         telemetry.addData("backLeft: ", backLeft.getPower());
         telemetry.addData("backRight: ", backRight.getPower());
+    }
+    public void moveDropKick(double power){
+      dropKick.setPower(power);
     }
 
 
