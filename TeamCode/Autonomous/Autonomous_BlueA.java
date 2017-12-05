@@ -20,87 +20,107 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
     @Override
     public void runOpMode(){
         initBase();
+        initConveyor();
         initGyro();
         initVuforia();
 
         waitForStart();
         activateTracking();
 
-        while (time.time()<10){
+        while (opModeIsActive()){
             // Add some telemetry.
             telemetry.addData("Current Time:", time.time());
 
 
+            if(time.time()<9){
+                kicker.setPosition(0.55);
 
-
-            if(colour.red()<75){
-                blueOnLeft = false;
-                telemetry.addData("Blue location:", "Right");
-            }else if(colour.red()>200){
-                blueOnLeft = true;
-                telemetry.addData("Blue location:", "Left");
+                if(colour.red()<75){
+                    blueOnLeft = false;
+                    telemetry.addData("Blue location:", "Right");
+                }else if(colour.red()>200){
+                    blueOnLeft = true;
+                    telemetry.addData("Blue location:", "Left");
+                }else{
+                    telemetry.addData("Blue location:", "Unknown");
+                }
             }else{
-                telemetry.addData("Blue location:", "Unknown");
+                kicker.setPosition(0.95);
             }
-
-
-            telemetry.update();
-            //move the kicker from vertical to horizontal
-            kicker.setPosition(0.55);
-
-
 
 
             if(blueOnLeft){
-                if(time.time()>1 && time.time()<1.25){
+                if(time.time()>5 && time.time()<6){
                     setMoveRobot(1,0,0);
 
-                }else if(time.time()>1.25 && time.time()<1.5){
+                }else if(time.time()>6 && time.time()<7){
                     setMoveRobot(-1,0,0);
 
-                }else if(time.time()>1.5 && time.time()<2.5){
+                }else if(time.time()>7 && time.time()<9){
                     //moveDropKick(0.2);
                     setMoveRobot(0,0,0);
-                }else if(time.time()>2.5 && time.time()<3){
-                    kicker.setPosition(0.95);
                 }
             }else{
-                if(time.time()>1 && time.time()<1.25){
+                if(time.time()>5 && time.time()<6){
                     setMoveRobot(-1,0,0);
-                    telemetry.addData("Oh hi:", "mark");
-                }else if(time.time()>1.25 && time.time()<1.5){
+
+                }else if(time.time()>6 && time.time()<7){
                     setMoveRobot(1,0,0);
-                    telemetry.addData("I did not:", "Hit her");
-                }else if(time.time()>1.5 && time.time()<2.5){
+
+                }else if(time.time()>7 && time.time()<9) {
                     // moveDropKick(0.2);
-                    setMoveRobot(0,0,0);
-                }else if(time.time()>2.5 && time.time()<3){
-                    kicker.setPosition(0.95);
+                    setMoveRobot(0, 0, 0);
+
                 }
             }
 
+            if (getPositionalData()) {
+                telemetry.addData("WORK?", vuMark);
 
 
-            if(vuMark == RelicRecoveryVuMark.RIGHT){
-                if(time.time()>3.5 && time.time()<4.5){
-                    setMoveRobot(-1,0,0);
-                }else if(time.time()>4.5 && time.time()<5.25){
-                    setMoveRobot(0,0,0);
+                telemetry.update();
+                if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                    vuMarkInt = 2;
+
+
+                } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                    vuMarkInt = 1;
+
+                } else if (vuMark == RelicRecoveryVuMark.LEFT) {
+                    vuMarkInt = 0;
+
+
                 }
 
-            }else if(vuMark == RelicRecoveryVuMark.CENTER){
-                if(time.time()>3.5 && time.time()<4.75){
-                    setMoveRobot(-1,0,0);
-                }else if(time.time()>4.75 && time.time()<5.25){
-                    setMoveRobot(0,0,0);
-                }
-            }else if(vuMark == RelicRecoveryVuMark.LEFT){
-                if(time.time()>3.5 && time.time()<5){
-                    setMoveRobot(-1,0,0);
-                }else if(time.time()>5 && time.time()<5.25){
-                    setMoveRobot(0,0,0);
+                if(vuMarkInt == 0){
+                    telemetry.addData("Vumark", "left");
+                    if (time.time() > 11.5 && time.time() < 13) {
+                        setMoveRobot(1, 0, 0);
+                    } else if (time.time() > 13 && time.time() < 15.5) {
+                        setMoveRobot(0, 0, 0);
+                    }
+
+                }else if(vuMarkInt ==1 ){
+                    telemetry.addData("Vumark", "center");
+                    if (time.time() > 11.5 && time.time() < 12.5) {
+                        setMoveRobot(1, 0, 0);
+                    } else if (time.time() > 12.5 && time.time() < 15.5) {
+                        setMoveRobot(0, 0, 0);
+                    }
+                }else if(vuMarkInt ==2){
+
+                    telemetry.addData("Vumark", "right");
+                    if (time.time() > 11.5 && time.time() < 12) {
+                        setMoveRobot(1, 0, 0);
+                    } else if (time.time() > 12 && time.time() < 15.5) {
+                        setMoveRobot(0, 0, 0);
+                    }
                 }
             }
+            else{
+                telemetry.addData("vuMark", "not found.");
+            }
+            telemetry.update();
 
 
 
@@ -108,19 +128,20 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
             //Turn the robot so the conveyor faces the cryptobox.
-            if(time.time()>5.5 && time.time()<6){
-                setMoveRobot(0,0,1);
-            }else if(time.time()>6 && time.time()<6.5){
+            if(time.time()>16 && time.time()<16.5){
+                setMoveRobot(0,0,-1);
+            }else if(time.time()>16.6 && time.time()<18){
                 setMoveRobot(0,0,0);
-            }else if(time.time()>6.75 && time.time()<7.75){
-                conveyor.setPower(0.5);
-            }else if(time.time()>7.75){
-                conveyor.setPower(0);
+            }else if(time.time()>18 && time.time()<25){
+                moveConveyor(0.5);
+            }else if(time.time()>25){
+                moveConveyor(0);
             }
+            telemetry.update();
         }
 
 
-            telemetry.update();
+
         }
 
 
