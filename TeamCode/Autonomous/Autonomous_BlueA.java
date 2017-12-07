@@ -51,10 +51,10 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
             if(blueOnLeft){
                 if(time.time()>5 && time.time()<6){
-                    setMoveRobot(1,0,0);
+                    setMoveRobot(0.3,0,0);
 
                 }else if(time.time()>6 && time.time()<7){
-                    setMoveRobot(-1,0,0);
+                    setMoveRobot(-0.3,0,0);
 
                 }else if(time.time()>7 && time.time()<9){
                     //moveDropKick(0.2);
@@ -62,10 +62,10 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }
             }else{
                 if(time.time()>5 && time.time()<6){
-                    setMoveRobot(-1,0,0);
+                    setMoveRobot(-0.3,0,0);
 
                 }else if(time.time()>6 && time.time()<7){
-                    setMoveRobot(1,0,0);
+                    setMoveRobot(0.3,0,0);
 
                 }else if(time.time()>7 && time.time()<9) {
                     // moveDropKick(0.2);
@@ -95,7 +95,7 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 if(vuMarkInt == 0){
                     telemetry.addData("Vumark", "left");
                     if (time.time() > 11.5 && time.time() < 13) {
-                        setMoveRobot(1, 0, 0);
+                        setMoveRobot(0.5, 0, 0);
                     } else if (time.time() > 13 && time.time() < 15.5) {
                         setMoveRobot(0, 0, 0);
                     }
@@ -103,7 +103,7 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }else if(vuMarkInt ==1 ){
                     telemetry.addData("Vumark", "center");
                     if (time.time() > 11.5 && time.time() < 12.5) {
-                        setMoveRobot(1, 0, 0);
+                        setMoveRobot(0.5, 0, 0);
                     } else if (time.time() > 12.5 && time.time() < 15.5) {
                         setMoveRobot(0, 0, 0);
                     }
@@ -111,7 +111,7 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
                     telemetry.addData("Vumark", "right");
                     if (time.time() > 11.5 && time.time() < 12) {
-                        setMoveRobot(1, 0, 0);
+                        setMoveRobot(0.5, 0, 0);
                     } else if (time.time() > 12 && time.time() < 15.5) {
                         setMoveRobot(0, 0, 0);
                     }
