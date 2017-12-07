@@ -17,7 +17,7 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     private double dLateral   = 0;
     private double dYaw       = 0;
 
-    private double intakePower = 0.5;
+    private double intakePower = 0.3;
 
 
 
@@ -68,18 +68,18 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
 
         //Drop intake
         if(gamepad2.right_bumper){
-            moveDropKick(0.4);
-        }else if(gamepad2.left_bumper){
             moveDropKick(-0.4);
+        }else if(gamepad2.left_bumper){
+            moveDropKick(0.4);
         }else{
             moveDropKick(0);
         }
         //Turn intake
         if (gamepad2.left_trigger > 0.2){ // May need to change this.
-            moveIntake(intakePower);
+            moveIntake(-intakePower);
         }
         else if (gamepad2.right_trigger > 0.2){
-            moveIntake(-intakePower);
+            moveIntake(intakePower);
         }else{
             moveIntake(0);
         }
