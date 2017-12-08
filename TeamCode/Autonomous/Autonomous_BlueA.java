@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by Harrison on 22/11/2017.
  */
-@Autonomous(name="Auto_BlueA")
+@Autonomous(name="BlueA")
 
 public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
@@ -101,33 +101,37 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
                 }
 
-                if(vuMarkInt == 0){
-                    telemetry.addData("Vumark", "left");
-                    if (time.time() > 11.5 && time.time() < 12.2) {
-                        setMoveRobot(-1, 0, 0);
-                    } else if (time.time() > 12.2 && time.time() < 15.5) {
-                        setMoveRobot(0, 0, 0);
-                    }
-
-                }else if(vuMarkInt ==1 ){
-                    telemetry.addData("Vumark", "center");
-                    if (time.time() > 11.5 && time.time() < 12.3) {
-                        setMoveRobot(-0.5, 0, 0);
-                    } else if (time.time() > 12.3 && time.time() < 15.5) {
-                        setMoveRobot(0, 0, 0);
-                    }
-                }else if(vuMarkInt ==2){
-
-                    telemetry.addData("Vumark", "right");
-                    if (time.time() > 11.5 && time.time() < 12.4) {
-                        setMoveRobot(-0.5, 0, 0);
-                    } else if (time.time() > 12.4 && time.time() < 15.5) {
-                        setMoveRobot(0, 0, 0);
-                    }
-                }
             }
             else{
                 telemetry.addData("vuMark", "not found.");
+            }
+
+            if(vuMarkInt == 0){
+                telemetry.addData("Vumark", "left");
+                if (time.time() > 11.5 && time.time() < 12.3) {
+                    setMoveRobot(-1, 0, 0);
+                }
+                if (time.time() > 12.3 && time.time() < 15.5) {
+                    setMoveRobot(0, 0, 0);
+                }
+
+            }else if(vuMarkInt ==1 ){
+                telemetry.addData("Vumark", "center");
+                if (time.time() > 11.5 && time.time() < 12.4) {
+                    setMoveRobot(-1, 0, 0);
+                }
+                if (time.time() > 12.4 && time.time() < 15.5) {
+                    setMoveRobot(0, 0, 0);
+                }
+            }else if(vuMarkInt ==2){
+
+                telemetry.addData("Vumark", "right");
+                if (time.time() > 11.5 && time.time() < 12.5) {
+                    setMoveRobot(-1, 0, 0);
+                }
+                if (time.time() > 12.5 && time.time() < 15.5) {
+                    setMoveRobot(0, 0, 0);
+                }
             }
 
 
@@ -151,7 +155,5 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
 
         }
-
-
 
 }
