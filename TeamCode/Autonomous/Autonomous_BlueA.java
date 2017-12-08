@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Autonomous_BlueA extends LibraryBaseAutonomous{
 
-
+    public double gyroFirst;
     ElapsedTime time = new ElapsedTime();
 
 
@@ -32,6 +32,8 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
             telemetry.addData("Current Time:", time.time());
 
             if(time.time()<7.4){
+                updateGyro();
+                gyroFirst= angles.firstAngle;
                 kicker.setPosition(0.45);
 
                 if(time.time()<5){
@@ -134,26 +136,35 @@ public class Autonomous_BlueA extends LibraryBaseAutonomous{
                 }
             }
 
+            updateGyro();
 
 
 
+            if(time.time()>16){
+                updateGyro();
+                if(angles.firstAngle > gyroFirst-90) {
+                    updateGyro();
+                    setMoveRobot(0, 0, 0.3);
+
+                }
+                else if (angles.firstAngle <= gyroFirst-90) {
+                    setMoveRobot(0, 0, 0);
+                }
+
+            }
+            telemetry.addData("Gryo Heading", angles.firstAngle);
 
 
             //Turn the robot so the conveyor faces the cryptobox.
-            if(time.time()>16 && time.time()<16.8){
-                setMoveRobot(0,0,-0.5);
-            }else if(time.time()>16.8 && time.time()<18){
-                setMoveRobot(0,0,0);
-            }else if(time.time()>18 && time.time()<25){
+             if(time.time()>18 && time.time()<25){
                 moveConveyor(0.05);
             }else if(time.time()>25){
                 moveConveyor(0);
             }
             telemetry.update();
+         }
+        telemetry.update();
+
+
         }
-
-
-
-        }
-
 }
