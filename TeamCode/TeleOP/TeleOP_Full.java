@@ -17,7 +17,7 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     private double dLateral   = 0;
     private double dYaw       = 0;
 
-    private double intakePower = 0.3;
+    private double intakePower = 0.01;
 
 
 
@@ -49,10 +49,10 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
 
         //Translations
         updateGyro();
-            dAxial   = -gamepad1.left_stick_y;
-            dLateral =  gamepad1.left_stick_x;
-            dYaw     = -gamepad1.right_stick_x;
-        setMoveRobot(dAxial, dLateral, dYaw);
+            dAxial   = -gamepad1.left_stick_y/3;
+            dLateral =  gamepad1.left_stick_x/3;
+            dYaw     = -gamepad1.right_stick_x/3;
+            setMoveRobot(dAxial, dLateral, dYaw);
 
         gyroYaw  = angles.firstAngle;
 
@@ -64,27 +64,34 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
 
 
         //Turn the conveyor
-        moveConveyor(-gamepad2.right_stick_y/5);
+        moveConveyor(-gamepad2.right_stick_y/20);
 
         //Drop intake
         if(gamepad2.right_bumper){
-            moveDropKick(-0.4);
+            moveDropKick(-0.1);
         }else if(gamepad2.left_bumper){
-            moveDropKick(0.4);
+            moveDropKick(0.1);
         }else{
             moveDropKick(0);
         }
         //Turn intake
-        if (gamepad2.left_trigger > 0.2){ // May need to change this.
-            moveIntake(-intakePower);
-        }
-        else if (gamepad2.right_trigger > 0.2){
+        if (gamepad2.left_trigger > 0.2 || gamepad1.left_trigger > 0.2){ // May need to change this.
             moveIntake(intakePower);
+        }
+        else if (gamepad2.right_trigger > 0.2 || gamepad1.right_trigger > 0.2){
+            moveIntake(-intakePower);
         }else{
             moveIntake(0);
         }
 
 
+        if(gamepad2.y){
+            kicker.setPosition(0);
+        }else if (gamepad2.b){
+            kicker.setPosition(0.25);
+        }else if(gamepad2.a){
+            kicker.setPosition(0.45);
+        }
 
 
 
