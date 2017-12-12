@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.Libraries.LibraryBaseTeleOP;
 
 /**
  * Created by Ari on 02-11-17.
+ * Edited by Harrison
  */
 
 
@@ -17,7 +18,7 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
     private double dLateral   = 0;
     private double dYaw       = 0;
 
-    private double intakePower = 0.01;
+    private double intakePower = 0.025;
 
 
 
@@ -49,10 +50,19 @@ public class TeleOP_Full extends LibraryBaseTeleOP {
 
         //Translations
         updateGyro();
+
+        if (gamepad1.a){
+            dAxial   = -gamepad1.left_stick_y;
+            dLateral =  gamepad1.left_stick_x;
+            dYaw     = -gamepad1.right_stick_x/3;
+        }
+        else{
             dAxial   = -gamepad1.left_stick_y/3;
             dLateral =  gamepad1.left_stick_x/3;
             dYaw     = -gamepad1.right_stick_x/3;
-            setMoveRobot(dAxial, dLateral, dYaw);
+        }
+
+        setMoveRobot(dAxial, dLateral, dYaw);
 
         gyroYaw  = angles.firstAngle;
 
