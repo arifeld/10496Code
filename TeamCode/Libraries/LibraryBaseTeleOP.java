@@ -28,6 +28,9 @@ public abstract class LibraryBaseTeleOP extends OpMode {
     // Define other motors.
     public static DcMotor conveyor    = null;
     public static DcMotor intake      = null;
+    public static DcMotor dropkick = null;
+
+    public static Servo kicker = null;
 
     // Gyro stuff.
     private static BNO055IMU imu       = null;
@@ -64,13 +67,16 @@ public abstract class LibraryBaseTeleOP extends OpMode {
     public void initConveyor(){
         telemetry.addData("STATUS: ", "Initialising Conveyor.");
         conveyor = hardwareMap.dcMotor.get("conveyor");
-        //intake = hardwareMap.dcMotor.get("intake");
+        intake = hardwareMap.dcMotor.get("intake");
+        dropkick = hardwareMap.dcMotor.get("dropKick");
+        kicker = hardwareMap.servo.get("kicker");
 
         conveyor.setDirection(DcMotorSimple.Direction.FORWARD);
-        //intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         resetMotor(conveyor, false);
-        //resetMotor(intake, true);
+        resetMotor(intake, false);
+        resetMotor(dropkick, false);
     }
 
 
@@ -213,6 +219,11 @@ public abstract class LibraryBaseTeleOP extends OpMode {
     public void moveIntake(double power){
         intake.setPower(power);
         telemetry.addData("Intake Power:", power);
+    }
+
+    public void moveDropKick(double power){
+        dropkick.setPower(power);
+        telemetry.addData("DropKick Power", power);
     }
 
 }
